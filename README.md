@@ -4,7 +4,7 @@
 
 > Built with FastAPI, LLMLingua-2, and tiktoken. MIT licensed, self-hostable, pip installable.
 
-🌐 **[trywinnow.vercel.app](https://trywinnow.vercel.app)** · 📦 [PyPI](https://pypi.org/project/winnow) · 🤗 [HuggingFace Space](https://huggingface.co/spaces/itsaryanchauhan/winnow) · ⭐ [GitHub](https://github.com/itsaryanchauhan/Winnow)
+🌐 **[trywinnow.vercel.app](https://trywinnow.vercel.app)** · 📦 [PyPI](https://pypi.org/project/winnow-compress/) · 🤗 [HuggingFace Space](https://huggingface.co/spaces/itsaryanchauhan/winnow) · ⭐ [GitHub](https://github.com/itsaryanchauhan/Winnow)
 
 ---
 
