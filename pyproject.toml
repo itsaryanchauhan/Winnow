@@ -3,8 +3,8 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "winnow"
-version = "0.1.0"
+name = "winnow-compress"
+version = "0.1.1"
 description = "Free open-source RAG compression middleware. Drop-in API for LLM pipelines."
 readme = "README.md"
 license = {text = "MIT"}

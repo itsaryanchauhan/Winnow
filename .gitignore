@@ -4,3 +4,4 @@ __pycache__/
 .env
 /tmp/
 benchmarks/results/*.json
+.DS_Store
