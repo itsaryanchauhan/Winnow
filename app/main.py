@@ -3,8 +3,14 @@ from app.models import CompressRequest, BatchCompressRequest, CompressResponse
 from app.compressor import compress
 import httpx
 from typing import Optional
+from fastapi.responses import RedirectResponse
 
 app = FastAPI(title="Winnow API", version="0.1.0")
+
+@app.get("/")
+def root():
+    return RedirectResponse(url="/docs")
+
 
 def attach_savings(result: dict, price: Optional[float]) -> dict:
     if price:
