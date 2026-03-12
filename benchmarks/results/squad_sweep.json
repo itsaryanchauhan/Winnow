@@ -1,0 +1,27 @@
+[
+  {
+    "ratio": 0.3,
+    "answer_retention_pct": 68.1,
+    "avg_token_reduction_pct": 69.5
+  },
+  {
+    "ratio": 0.4,
+    "answer_retention_pct": 82.6,
+    "avg_token_reduction_pct": 60.1
+  },
+  {
+    "ratio": 0.5,
+    "answer_retention_pct": 87.0,
+    "avg_token_reduction_pct": 50.5
+  },
+  {
+    "ratio": 0.6,
+    "answer_retention_pct": 92.8,
+    "avg_token_reduction_pct": 41.1
+  },
+  {
+    "ratio": 0.7,
+    "answer_retention_pct": 94.2,
+    "avg_token_reduction_pct": 30.5
+  }
+]

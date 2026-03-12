@@ -1,0 +1,42 @@
+[
+  {
+    "target_tokens": 500,
+    "actual_tokens": 500,
+    "compressed_tokens": 242,
+    "avg_latency_ms": 2324.3,
+    "min_latency_ms": 504.4,
+    "token_reduction_pct": 51.6
+  },
+  {
+    "target_tokens": 1000,
+    "actual_tokens": 1000,
+    "compressed_tokens": 482,
+    "avg_latency_ms": 842.7,
+    "min_latency_ms": 841.4,
+    "token_reduction_pct": 51.8
+  },
+  {
+    "target_tokens": 2000,
+    "actual_tokens": 2000,
+    "compressed_tokens": 965,
+    "avg_latency_ms": 1680.5,
+    "min_latency_ms": 1680.2,
+    "token_reduction_pct": 51.8
+  },
+  {
+    "target_tokens": 5000,
+    "actual_tokens": 5000,
+    "compressed_tokens": 2412,
+    "avg_latency_ms": 4248.2,
+    "min_latency_ms": 4223.3,
+    "token_reduction_pct": 51.8
+  },
+  {
+    "target_tokens": 10000,
+    "actual_tokens": 10000,
+    "compressed_tokens": 4825,
+    "avg_latency_ms": 8954.5,
+    "min_latency_ms": 8674.3,
+    "token_reduction_pct": 51.8
+  }
+]

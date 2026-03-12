@@ -1,0 +1,9 @@
+{
+  "dataset": "SQuAD 2.0",
+  "samples": 150,
+  "avg_baseline_tokens": 116.9,
+  "avg_compressed_tokens": 86.8,
+  "token_reduction_pct": 25.7,
+  "answer_retention_pct": 87.0,
+  "answerable_samples": 69
+}
