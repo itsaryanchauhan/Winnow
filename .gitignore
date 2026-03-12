@@ -1,7 +1,20 @@
-venv/
-__pycache__/
-*.pyc
-.env
-/tmp/
-benchmarks/results/*.json
+cat >> .gitignore << 'EOF'
 .DS_Store
+.env
+dist/
+venv/
+*.egg-info/
+.pytest_cache/
+website/node_modules/
+website/.next/
+EOF
+.DS_Store
+.env
+.env.local
+dist/
+venv/
+*.egg-info/
+.pytest_cache/
+website/.next/
+website/node_modules/
+website/.env.local
