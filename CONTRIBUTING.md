@@ -32,9 +32,9 @@ Thanks for your interest in contributing! Winnow is open-source and welcomes all
 
 ## 🌿 Branch Convention
 
-- `main` — stable, production-ready
-- `feat/your-feature` — new features
-- `fix/your-fix` — bug fixes
+- `main` - stable, production-ready
+- `feat/your-feature` - new features
+- `fix/your-fix` - bug fixes
 
 ## 📬 Submitting a PR
 
@@ -47,6 +47,7 @@ Thanks for your interest in contributing! Winnow is open-source and welcomes all
 ## 🐛 Reporting Issues
 
 Open an issue on [GitHub](https://github.com/itsaryanchauhan/Winnow/issues) with:
+
 - What you expected to happen
 - What actually happened
 - Steps to reproduce

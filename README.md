@@ -61,16 +61,17 @@ pip install winnow-compress
 from winnow import compress
 
 result = compress(
-    context=chunks,
-    question=query,
-    ratio=0.5
+    input_text,
+    compression_ratio=0.5,
+    rag_mode=True,
+    question="What is the warranty period?"
 )
 
-print(result["compressed_context"])
+print(result["output"])
 print(result["original_tokens"])     # e.g. 420
 print(result["compressed_tokens"])   # e.g. 210
-print(result["compression_ratio"])   # e.g. 0.5
-print(result["savings_estimate"])    # e.g. "$0.000525"
+print(result["ratio"])               # e.g. 0.5
+print(result["estimated_savings_usd"])    # e.g. 0.000525
 ```
 
 ### Option 3 — LangChain Drop-in
@@ -88,10 +89,11 @@ compressed_docs = compressor.compress_documents(docs, query)
 curl -X POST http://localhost:8000/v1/compress \
   -H "Content-Type: application/json" \
   -d '{
-    "context": "your retrieved chunks here",
+    "input": "your retrieved chunks here",
+    "compression_ratio": 0.5,
+    "rag_mode": true,
     "question": "what is the capital of France?",
-    "ratio": 0.5,
-    "protect": ["Paris", "France"]
+    "protected_strings": ["Paris", "France"]
   }'
 ```
 
@@ -115,22 +117,23 @@ response = client.chat.completions.create(
 
 ### Request Parameters
 
-| Field      | Type     | Required | Description                                        |
-| ---------- | -------- | -------- | -------------------------------------------------- |
-| `context`  | string   | ✅       | Retrieved RAG chunks to compress                   |
-| `question` | string   | ✅       | User query — guides which tokens to keep           |
-| `ratio`    | float    | ❌       | Compression aggressiveness 0.1–0.9. Default: `0.5` |
-| `protect`  | string[] | ❌       | Words/phrases that must not be removed             |
+| Field               | Type     | Required | Description                                          |
+| ------------------- | -------- | -------- | ---------------------------------------------------- |
+| `input`             | string   | ✅       | Text or context to compress                          |
+| `question`          | string   | ❌       | Optional query for RAG-guided compression            |
+| `compression_ratio` | float    | ❌       | Compression ratio 0.1–0.9. Default: `0.5`            |
+| `protected_strings` | string[] | ❌       | Words/phrases that must not be removed               |
+| `rag_mode`          | boolean  | ❌       | Enable question-guided compression. Default: `false` |
 
 ### Response Fields
 
-| Field                | Type   | Description                          |
-| -------------------- | ------ | ------------------------------------ |
-| `compressed_context` | string | The compressed output                |
-| `original_tokens`    | int    | Token count before compression       |
-| `compressed_tokens`  | int    | Token count after compression        |
-| `compression_ratio`  | float  | Actual ratio achieved                |
-| `savings_estimate`   | string | Estimated USD saved (gpt-4o pricing) |
+| Field                   | Type   | Description                          |
+| ----------------------- | ------ | ------------------------------------ |
+| `output`                | string | The compressed output                |
+| `original_tokens`       | int    | Token count before compression       |
+| `compressed_tokens`     | int    | Token count after compression        |
+| `ratio`                 | float  | Actual ratio achieved                |
+| `estimated_savings_usd` | float  | Estimated USD saved (gpt-4o pricing) |
 
 ### Batch Compression
 
@@ -138,9 +141,10 @@ response = client.chat.completions.create(
 curl -X POST http://localhost:8000/v1/compress/batch \
   -H "Content-Type: application/json" \
   -d '{
-    "contexts": ["chunk one...", "chunk two..."],
-    "question": "your query",
-    "ratio": 0.5
+    "inputs": ["chunk one...", "chunk two..."],
+    "compression_ratio": 0.5,
+    "rag_mode": true,
+    "question": "your query"
   }'
 ```
 
@@ -174,7 +178,7 @@ Winnow/
 ## 🛠️ Built With
 
 - **API**: FastAPI + Python
-- **Compression**: microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank
+- **Compression**: microsoft/llmlingua-2-xlm-roberta-large-meetingbank
 - **Tokenizer**: tiktoken (cl100k_base)
 - **Deploy**: Docker + HuggingFace Spaces
 

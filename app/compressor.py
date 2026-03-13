@@ -2,7 +2,9 @@ import torch
 from llmlingua import PromptCompressor
 from typing import Optional
 
+
 _compressor = None
+
 
 def get_device():
     if torch.cuda.is_available():
@@ -11,6 +13,7 @@ def get_device():
         return "mps"
     else:
         return "cpu"
+
 
 def get_compressor():
     global _compressor
@@ -23,6 +26,7 @@ def get_compressor():
         )
     return _compressor
 
+
 def chunk_text(text: str, max_tokens: int = 400) -> list:
     words = text.split()
     chunks = []
@@ -30,7 +34,15 @@ def chunk_text(text: str, max_tokens: int = 400) -> list:
         chunks.append(" ".join(words[i:i + max_tokens]))
     return chunks
 
-def compress(text: str, ratio: float, protected: list, rag_mode: bool, include_diff: bool):
+
+def compress(
+    text: str,
+    ratio: float,
+    protected: list,
+    rag_mode: bool,
+    include_diff: bool,
+    question: Optional[str] = None
+):
     comp = get_compressor()
     words = text.split()
 
@@ -42,10 +54,8 @@ def compress(text: str, ratio: float, protected: list, rag_mode: bool, include_d
 
         for chunk in chunks:
             kwargs = dict(rate=ratio, force_tokens=protected)
-            if rag_mode:
-                kwargs.update(rank_method="longllmlingua",
-                              condition_in_question="after_condition",
-                              reorder_context="sort")
+            if rag_mode and question:
+                kwargs["question"] = question
             result = comp.compress_prompt([chunk], **kwargs)
             compressed_chunks.append(result["compressed_prompt"])
             total_original += result["origin_tokens"]
@@ -69,10 +79,8 @@ def compress(text: str, ratio: float, protected: list, rag_mode: bool, include_d
 
     # Single chunk path
     kwargs = dict(rate=ratio, force_tokens=protected)
-    if rag_mode:
-        kwargs.update(rank_method="longllmlingua",
-                      condition_in_question="after_condition",
-                      reorder_context="sort")
+    if rag_mode and question:
+        kwargs["question"] = question
 
     result = comp.compress_prompt([text], **kwargs)
 

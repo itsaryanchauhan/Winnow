@@ -31,7 +31,7 @@ def ask_gemini(context: str, question: str, retries: int = 4) -> str:
             elif "404" in error_str:
                 raise RuntimeError(f"Model not found: {GEMINI_MODEL}") from e
             else:
-                print(f"  Skipping — API error: {e}")
+                print(f"  Skipping - API error: {e}")
                 return ""
     return ""
 
