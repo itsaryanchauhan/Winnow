@@ -58,10 +58,12 @@ read -p "Continue? (y/n) " -n 1 -r
 echo ""
 [[ $REPLY =~ ^[Yy]$ ]] || { info "Aborted."; exit 0; }
 
-# ─── 1. Bump version in pyproject.toml ────────────────────
+# ─── 1. Bump version ─────────────────────────────────────────
 info "Bumping version in pyproject.toml..."
 sed -i '' "s/^version = \"$CURRENT\"/version = \"$VERSION\"/" pyproject.toml
-success "pyproject.toml updated"
+info "Bumping version in app/main.py..."
+sed -i '' "s/version=\"[0-9]*\.[0-9]*\.[0-9]*\"/version=\"$VERSION\"/" app/main.py
+success "Versions updated"
 
 # ─── 2. GitHub - commit + tag + push ──────────────────────
 info "Pushing to GitHub..."
@@ -85,8 +87,8 @@ fi
 
 # ─── 4. Docker Hub ────────────────────────────────────────
 if [ "$SKIP_DOCKER" = false ]; then
-  info "Building Docker image..."
-  docker build -t itsaryanchauhan/winnow:latest -t itsaryanchauhan/winnow:$VERSION .
+  info "Building Docker image (linux/amd64 for universally compatible deployment)..."
+  docker build --platform linux/amd64 -t itsaryanchauhan/winnow:latest -t itsaryanchauhan/winnow:$VERSION .
   info "Pushing to Docker Hub..."
   docker push itsaryanchauhan/winnow:latest
   docker push itsaryanchauhan/winnow:$VERSION

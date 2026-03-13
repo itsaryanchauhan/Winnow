@@ -1,0 +1,11 @@
+venv/
+node_modules/
+website/node_modules/
+website/.next/
+__pycache__/
+.pytest_cache/
+.git/
+.DS_Store
+*.egg-info/
+dist/
+build/

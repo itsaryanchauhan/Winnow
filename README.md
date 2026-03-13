@@ -1,3 +1,13 @@
+---
+title: Winnow
+emoji: 🌾
+colorFrom: yellow
+colorTo: blue
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # Winnow 🌾
 
 **Open-source RAG prompt compression middleware. Keep the signal. Drop the noise.**
