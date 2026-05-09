@@ -87,8 +87,8 @@ fi
 
 # ─── 4. Docker Hub ────────────────────────────────────────
 if [ "$SKIP_DOCKER" = false ]; then
-  info "Building Docker image (linux/amd64 for universally compatible deployment)..."
-  docker build --platform linux/amd64 -t itsaryanchauhan/winnow:latest -t itsaryanchauhan/winnow:$VERSION .
+  info "Building Docker image..."
+  docker build -t itsaryanchauhan/winnow:latest -t itsaryanchauhan/winnow:$VERSION .
   info "Pushing to Docker Hub..."
   docker push itsaryanchauhan/winnow:latest
   docker push itsaryanchauhan/winnow:$VERSION
@@ -113,6 +113,23 @@ if [ "$SKIP_HF" = false ]; then
     --exclude='benchmarks' \
     --exclude='tests' \
     ./ "$HF_DIR/"
+
+  info "Injecting HuggingFace configuration into README.md..."
+  cat << 'EOF' > "$HF_DIR/hf_frontmatter.md"
+---
+title: Winnow
+emoji: 🌾
+colorFrom: yellow
+colorTo: blue
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
+EOF
+  cat "$HF_DIR/README.md" >> "$HF_DIR/hf_frontmatter.md"
+  mv "$HF_DIR/hf_frontmatter.md" "$HF_DIR/README.md"
+
   cd "$HF_DIR"
   git add -A
   git commit -m "release v$VERSION" --allow-empty

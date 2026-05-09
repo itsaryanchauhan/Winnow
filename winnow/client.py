@@ -12,6 +12,7 @@ class Winnow:
         protected_strings: list = [],
         rag_mode: bool = False,
         diff: bool = False,
+        question: Optional[str] = None,
         price_per_million_tokens: Optional[float] = None
     ) -> dict:
         response = httpx.post(
@@ -22,6 +23,7 @@ class Winnow:
                 "protected_strings": protected_strings,
                 "rag_mode": rag_mode,
                 "diff": diff,
+                "question": question,
                 "price_per_million_tokens": price_per_million_tokens
             },
             timeout=60
@@ -35,6 +37,7 @@ class Winnow:
         compression_ratio: float = 0.5,
         protected_strings: list = [],
         rag_mode: bool = False,
+        question: Optional[str] = None,
         price_per_million_tokens: Optional[float] = None
     ) -> list[dict]:
         response = httpx.post(
@@ -44,6 +47,7 @@ class Winnow:
                 "compression_ratio": compression_ratio,
                 "protected_strings": protected_strings,
                 "rag_mode": rag_mode,
+                "question": question,
                 "price_per_million_tokens": price_per_million_tokens
             },
             timeout=60
