@@ -1,13 +1,3 @@
----
-title: Winnow
-emoji: 🌾
-colorFrom: yellow
-colorTo: blue
-sdk: docker
-app_port: 7860
-pinned: false
----
-
 # Winnow 🌾
 
 **Open-source RAG prompt compression middleware. Keep the signal. Drop the noise.**
@@ -20,16 +10,16 @@ pinned: false
 
 ## 🎯 What is Winnow?
 
-Winnow sits between your vector database and your LLM. It takes raw retrieved document chunks, compresses them using LLMLingua-2 token-level scoring guided by your query, and returns a shorter context that preserves answer-relevant content — cutting token costs by ~50% with less than 3% accuracy loss.
+Winnow sits between your vector database and your LLM. It takes raw retrieved document chunks, compresses them using LLMLingua-2 token-level scoring guided by your query, and returns a shorter context that preserves answer-relevant content - cutting token costs by ~50% with less than 3% accuracy loss.
 
 ## ✨ Key Features
 
 - 🗜️ **Token Compression**: Cuts retrieved context by ~50% using LLMLingua-2
-- 🎯 **Query-Guided**: Compression is steered by your question — relevant tokens survive
+- 🎯 **Query-Guided**: Compression is steered by your question - relevant tokens survive
 - 🔒 **Protected Words**: Mark phrases that must never be removed
 - ⚖️ **Ratio Control**: Tune aggressiveness from 0.1 (light) to 0.9 (heavy)
-- 🔌 **OpenAI-Compatible Proxy**: Drop-in `/v1/chat/completions` — zero code changes
-- 🦜 **LangChain Integration**: Native `WinnowCompressor` drop-in wrapper
+- 🔌 **OpenAI-Compatible Proxy**: Drop-in `/v1/chat/completions` - zero code changes
+- 🦜 **LangChain Integration**: Native `WinnowRetriever` drop-in wrapper
 - 🐳 **Self-Hostable**: Single Docker command, no API key required
 - 📦 **Pip Installable**: `pip install winnow-compress`
 
@@ -55,23 +45,25 @@ API live at `http://localhost:8000` · Docs at `http://localhost:8000/docs`
 <details>
 <summary>📖 Full Integration Examples (Docker, pip, LangChain, REST, OpenAI Proxy)</summary>
 
-### Option 1 — Self-host with Docker
+### Option 1 - Self-host with Docker
 
 ```bash
 docker run -p 8000:8000 itsaryanchauhan/winnow
 ```
 
-### Option 2 — pip install
+### Option 2 - pip install
 
 ```bash
 pip install winnow-compress
 ```
 
 ```python
-from winnow import compress
+from winnow import Winnow
 
-result = compress(
-    input_text,
+client = Winnow()
+
+result = client.compress(
+    text=input_text,
     compression_ratio=0.5,
     rag_mode=True,
     question="What is the warranty period?"
@@ -84,16 +76,19 @@ print(result["ratio"])               # e.g. 0.5
 print(result["estimated_savings_usd"])    # e.g. 0.000525
 ```
 
-### Option 3 — LangChain Drop-in
+### Option 3 - LangChain Drop-in
 
 ```python
-from winnow.langchain import WinnowCompressor
+from winnow.langchain import WinnowRetriever
 
-compressor = WinnowCompressor(ratio=0.5)
-compressed_docs = compressor.compress_documents(docs, query)
+retriever = WinnowRetriever(
+    base_retriever,
+    compression_ratio=0.5
+)
+docs = retriever.get_relevant_documents("your question")
 ```
 
-### Option 4 — REST API (curl)
+### Option 4 - REST API (curl)
 
 ```bash
 curl -X POST http://localhost:8000/v1/compress \
@@ -107,9 +102,9 @@ curl -X POST http://localhost:8000/v1/compress \
   }'
 ```
 
-### Option 5 — OpenAI-Compatible Proxy
+### Option 5 - OpenAI-Compatible Proxy
 
-Zero code changes if you already use the OpenAI SDK — just swap the base URL:
+Zero code changes if you already use the OpenAI SDK - just swap the base URL:
 
 ```python
 from openai import OpenAI
@@ -167,8 +162,8 @@ Winnow/
 ├── app/               # FastAPI application
 │   └── main.py        # API routes and server
 ├── winnow/            # pip package
-│   ├── __init__.py    # compress() function
-│   └── langchain.py   # WinnowCompressor
+│   ├── client.py      # Winnow
+│   └── langchain.py   # WinnowRetriever
 ├── benchmarks/        # SQuAD benchmark scripts and results
 ├── tests/             # Test suite
 ├── website/           # Next.js website (trywinnow.vercel.app)
